@@ -99,10 +99,20 @@ activity.imputed<-activity.data %>% left_join(interval.means, by = "interval") %
   mutate(steps = ifelse(is.na(steps), mean.steps, steps),
          mean.value = NULL)
 
-step.imputed.sum<-activity.imputed %>% 
+step.imputed.sum <- activity.imputed %>% 
   group_by(date) %>% 
   summarise(total.steps=sum(steps, na.rm=TRUE))
 
+```
+
+Plot the distribution of total steps
+
+```{r, echo=TRUE}
+# Generate a histogram of the total steps per day
+h2<-ggplot(step.imputed.sum, aes(total.steps))
+h2+geom_histogram() + 
+  ggtitle("Distribution of total steps per day") + 
+  xlab("Total Steps")
 ```
 
 Calculate the mean and median number of steps for the data with missing values imputed from mean steps by interval
@@ -122,7 +132,12 @@ For the raw data,
 The Mean number of steps is `r format(step.mm$mean.total.steps, 8.3)` and
 the Median number of steps is `r format(step.mm$median.total.steps, 8.3)`
 
-Creaate a variable called daytype category for weekend and weekday days
+```{r, echo=TRUE}
+
+```
+
+
+Create a variable called daytype category for weekend and weekday days
 
 ```{r, echo=TRUE}
 activity.imputed$day<-weekdays(as.Date(as.character(activity.imputed$date)))
